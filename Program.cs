@@ -69,6 +69,12 @@ public class Program
                 
             }
 
+            string cardNumber = HandleCreateAccount.GenerateCardNumber();
+
+            Console.WriteLine("Kortnumret har skapats: {cardNumber}");
+            Console.WriteLine("konto skapat för {firstName} {lastName} med PIN kod: {Pin}");
+            
+
 
 
             
