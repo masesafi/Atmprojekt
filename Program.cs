@@ -1,4 +1,6 @@
-using system;
+using System;
+namespace atmprojekt
+{
 public class Program
 {
 
@@ -29,7 +31,7 @@ public class Program
                Console.WriteLine("Du valde att avsluta, på återseende!");
                Environment.Exit(0);
                break;
-               default;
+               default:
                Console.WriteLine("Ogiltigt val, vänligen försök igen");
                break;
             }
@@ -49,7 +51,7 @@ public class Program
             Console.WriteLine("Ange din PIN-kod: ");
             string Pin = Console.ReadLine();
             }
-        }
+        
 
         static void HandleCreateAccount()
         {
@@ -62,24 +64,44 @@ public class Program
             Console.WriteLine("Skapa din pin kod (4 siffror)");
             string Pin = Console.ReadLine();
             
-            while (Pin.Length != 4 || pin.Contains(" ") || !Pin.All(char.IsDigit))
-            {
-                Console.WriteLine("Ogiltig kod, din pin kod måste vara exakt 4 siffror. Försök igen.");
-                pin = Console.ReadLine();
-                
-            }
+           while (Pin.Length != 4 || Pin.Contains(" ") || !IsPinValid(Pin))
+           {
+
+           Console.WriteLine("Ogiltig kod, din pin kod måste vara exakt 4 siffror. Försök igen.");
+           Pin = Console.ReadLine();
+           }
+
+
 
             string cardNumber = HandleCreateAccount.GenerateCardNumber();
 
             Console.WriteLine("Kortnumret har skapats: {cardNumber}");
             Console.WriteLine("konto skapat för {firstName} {lastName} med PIN kod: {Pin}");
+
+            Account NewAccount =  new Account (FirstName, LastName, Pin);
+
+            static bool IsPinValid(string pin)
+            {
+            foreach (char digit in pin)
+    {
+            if (!char.IsDigit(digit))
+            {
+            return false; // Om något tecken inte är en siffra, returnera false
+            }
+    }
+            return true; // Alla tecken är siffror
+}
+
+
+            
             
 
 
 
-            
+        }
             
         }
+}
 
         
         
