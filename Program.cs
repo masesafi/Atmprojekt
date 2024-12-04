@@ -18,13 +18,21 @@ namespace atmprojekt
             Console.WriteLine("Sätt in önskad belopp(endast heltal):");
             if (int.TryParse(Console.ReadLine(), out int amount) && amount > 0)
             {
-                account.Balance = account.Balance + amount; //Öka saldot
-                Console.WriteLine($"Insättningen lyckades ditt nya saldo är: {account.Balance} kr");
-            }
-            else
-            {
-                Console.WriteLine("Ogiltigt saldo försök gärna igen.");
-            }
+                if (amount < 100)
+                {
+                    Console.WriteLine("Tyvärr för låg insättning, minsta insättning är 100kr");
+                }
+                else
+                {
+                    account.Balance = account.Balance + amount; //Öka saldot
+                    Console.WriteLine($"Insättningen lyckades ditt nya saldo är: {account.Balance} kr");
+                }
+            } // Allt innanför denna tryparse kommer att göra en insätting
+                else
+                {
+                    Console.WriteLine("Ogiltigt saldo försök gärna igen."); // Görs ej en insättning
+                }
+            
             
          }
 
