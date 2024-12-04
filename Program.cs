@@ -13,9 +13,63 @@ namespace atmprojekt
             return true;
         }
 
+        static void HandleCreateAccount()
+        {
+            Console.WriteLine("Ange ditt förnamn");
+            string FirstName = Console.ReadLine();
+
+            Console.WriteLine("Ange ditt efternamn");
+            string LastName = Console.ReadLine();
+
+            Console.WriteLine("Skapa din pin kod (4 siffror)");
+            string Pin = Console.ReadLine();
+
+            while (Pin.Length != 4 || Pin.Contains(" ") || !IsPinValid(Pin))
+            {
+
+                Console.WriteLine("Ogiltig kod, din pin kod måste vara exakt 4 siffror. Försök igen.");
+                Pin = Console.ReadLine();
+            }
+
+
+
+            string cardNumber = Account.GenerateCardNumber();
+
+            Console.WriteLine("Kortnumret har skapats: {cardNumber}");
+            Console.WriteLine("konto skapat för {firstName} {lastName} med PIN kod: {Pin}");
+
+            Account NewAccount = new Account(FirstName, LastName, Pin);
+
+        }
+
+        static void HandleLogin()
+        {
+
+            Console.WriteLine("Ange ditt kortnummer: ");
+            string cardNumber = Console.ReadLine();
+
+            Console.WriteLine("Ange din PIN-kod: ");
+            string Pin = Console.ReadLine();
+
+
+            foreach (var account in Account.Accounts)
+            {
+                if (account.CardNumber == cardNumber && account.Pin == Pin)
+                {
+                    Console.WriteLine("Välkommen {account.FirstName} {account.LastName}!");
+                    return;
+                }
+            }
+
+            Console.WriteLine("Ogiltig inloggningsuppgift försök gärna igen.");
+            return null;
+        }
+
+
         static void HandleDeposit(Account account)
         {
             Console.WriteLine("Sätt in önskad belopp(endast heltal):");
+            
             if (int.TryParse(Console.ReadLine(), out int amount) && amount > 0)
             {
                 if (amount < 100)
@@ -27,14 +81,12 @@ namespace atmprojekt
                     account.Balance = account.Balance + amount; //Öka saldot
                     Console.WriteLine($"Insättningen lyckades ditt nya saldo är: {account.Balance} kr");
                 }
-            } // Allt innanför denna tryparse kommer att göra en insätting
-                else
-                {
-                    Console.WriteLine("Ogiltigt saldo försök gärna igen."); // Görs ej en insättning
-                }
-            
-            
-         }
+            } // If kommer då att inte låta göra insättning om det är under 100kr, else är det som gör att det sker en insättning
+            else
+            {
+                Console.WriteLine("Ogiltigt saldo försök gärna igen."); // Görs ej en insättning pga andra skäl kanske bokstav som skrivs
+            }
+        }
 
 
 
@@ -82,67 +134,15 @@ namespace atmprojekt
 
 
 
-            static void HandleLogin()
-            {
-
-                Console.WriteLine("Ange ditt kortnummer: ");
-                string cardNumber = Console.ReadLine();
-
-                Console.WriteLine("Ange din PIN-kod: ");
-                string Pin = Console.ReadLine();
-
-
-                foreach (var account in Account.Accounts)
-                {
-                    if (account.CardNumber == cardNumber && account.Pin == Pin)
-                        Console.WriteLine("Välkommen {account.FirstName} {account.LastName}!");
-                    return;
-                }
-            }
-
-
-            static void HandleCreateAccount()
-            {
-                Console.WriteLine("Ange ditt förnamn");
-                string FirstName = Console.ReadLine();
-
-                Console.WriteLine("Ange ditt efternamn");
-                string LastName = Console.ReadLine();
-
-                Console.WriteLine("Skapa din pin kod (4 siffror)");
-                string Pin = Console.ReadLine();
-
-                while (Pin.Length != 4 || Pin.Contains(" ") || !IsPinValid(Pin))
-                {
-
-                    Console.WriteLine("Ogiltig kod, din pin kod måste vara exakt 4 siffror. Försök igen.");
-                    Pin = Console.ReadLine();
-                }
 
 
 
-                string cardNumber = Account.GenerateCardNumber();
 
-                Console.WriteLine("Kortnumret har skapats: {cardNumber}");
-                Console.WriteLine("konto skapat för {firstName} {lastName} med PIN kod: {Pin}");
-
-                Account NewAccount = new Account(FirstName, LastName, Pin);
-
-                static bool IsPinValid(string pin)
-                {
-                    foreach (char digit in pin)
-                    {
-                        if (!char.IsDigit(digit))
-                        {
-                            return false; // Om något tecken inte är en siffra, returnera false
-                        }
-                    }
-                    return true; // Alla tecken är siffror
-                }
-            }
         }
     }
 }
+
+
 
 
 
