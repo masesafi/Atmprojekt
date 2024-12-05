@@ -106,62 +106,93 @@ namespace atmprojekt
             }
             else
             {
-                 Console.WriteLine("Ogiltigt belopp angivet, eller för lågt saldo, försök  gärna igen");
+                Console.WriteLine("Ogiltigt belopp angivet, eller för lågt saldo, försök  gärna igen");
 
             }
         }
 
         public static void Main(string[] args)
         {
+            Account loggedInAccount = null; //Menas då alltså när kontott är inloggad
+
             while (true)
             {
-                Console.WriteLine("Välkommen till modern Atm");
-                Console.WriteLine("1. Logga in. ");
-                Console.WriteLine("2. Skapa konto.");
-                Console.WriteLine("3. Avsluta");
-                Console.WriteLine("4. Välj ett av alternativen ovan:");
-
-                try
+                if (loggedInAccount == null)
                 {
+                    Console.WriteLine("Välkommen till modern Atm");
+                    Console.WriteLine("1. skapa konto. ");
+                    Console.WriteLine("2. Logga in.");
+                    Console.WriteLine("3. Avsluta");
+                    Console.WriteLine("4. Välj ett av alternativen ovan:");
 
-                    int choice = int.Parse(Console.ReadLine());
+                    if (!int.TryParse(Console.ReadLine(), out int choice))
+                    {
+                        Console.WriteLine("Ogiltigt val, försök gärna igen");
+                        continue;
+                    }
 
                     switch (choice)
                     {
+
                         case 1:
-                            HandleLogin();
+                            HandleCreateAccount();
                             break;
 
                         case 2:
-                            HandleCreateAccount();
+                            loggedInAccount = HandleLogin();
                             break;
 
                         case 3:
                             Console.WriteLine("Du valde att avsluta, på återseende!");
-                            Environment.Exit(0);
-                            break;
-
+                            return;
                         default:
                             Console.WriteLine("Ogiltigt val, vänligen försök igen");
                             break;
                     }
                 }
-
-                catch (FormatException)
+                else
                 {
-                    Console.WriteLine("Vänligen ange ett nummer (1-3)");
+                    Console.WriteLine("Inloggad meny:");
+                    Console.WriteLine("1.Insättning");
+                    Console.WriteLine("2.Uttag");
+                    Console.WriteLine("3. Visa saldo");
+                    Console.WriteLine("4. Logga ut");
+                    Console.WriteLine("Välj ett alternativ");
+
+                    if (!int.TryParse(Console.ReadLine(), out int choice))
+                    {
+                        Console.WriteLine("Ogiltigt val, försök igen");
+                        continue;
+                    }
+
+                    switch (choice)
+                    {
+                        case 1:
+                            HandleDeposit(loggedInAccount);
+                            break;
+                        case 2:
+                            HandleWithdraw(loggedInAccount);
+                            break;
+                        case 3:
+                            Console.WriteLine($"Ditt saldo är: {loggedInAccount.Balance} kr ");
+                            break;
+                        case 4:
+                            loggedInAccount = null;
+                            Console.WriteLine("Du har loggats ut nu");
+                            break;
+                        default:
+                            Console.WriteLine("Ogilitgt val försök igen");
+                            break;
+                    }
                 }
             }
-
-
-
-
-
-
-
         }
+    
+    
+    
     }
 }
+
 
 
 
