@@ -69,7 +69,7 @@ namespace atmprojekt
         static void HandleDeposit(Account account)
         {
             Console.WriteLine("Sätt in önskad belopp(endast heltal):");
-            
+
             if (int.TryParse(Console.ReadLine(), out int amount) && amount > 0)
             {
                 if (amount < 100)
@@ -88,7 +88,28 @@ namespace atmprojekt
             }
         }
 
+        static void HandleWithdraw(Account account)
+        {
+            Console.WriteLine("Ange hur mycket du vill ta ut(minsta uttaget är 100kr)");
 
+            if (int.TryParse(Console.ReadLine(), out int amount) && amount >= 100)
+            {
+                if (amount > account.Balance)
+                {
+                    Console.WriteLine("Otillrickligt saldo!");
+                }
+                else
+                {
+                    account.Balance = account.Balance - amount; //Minskar saldot
+                    Console.WriteLine($"Uttaget godkändes, ditt nya saldo är: {account.Balance} kr");
+                }
+            }
+            else
+            {
+                 Console.WriteLine("Ogiltigt belopp angivet, eller för lågt saldo, försök  gärna igen");
+
+            }
+        }
 
         public static void Main(string[] args)
         {
