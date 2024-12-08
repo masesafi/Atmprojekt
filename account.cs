@@ -19,7 +19,7 @@ namespace atmprojekt
             return $"{random.Next(1000, 9999)}-{random.Next(1000, 9999)}-{random.Next(1000, 9999)}-{random.Next(1000, 9999)}";
         }
 
-        public Account(string firstName, string lastName, string pin)
+        public Account(string firstName, string lastName, string CardNumber, string pin)
         {
 
             FirstName = firstName;
@@ -31,5 +31,6 @@ namespace atmprojekt
         }
 
         public List<Transaction> Transactions { get; set; } = new List<Transaction>();
+
     }
 }

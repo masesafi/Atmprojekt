@@ -34,15 +34,14 @@ namespace atmprojekt
 
 
             string cardNumber = Account.GenerateCardNumber();
+            Account NewAccount = new Account(FirstName, LastName, cardNumber, Pin);
 
-            Console.WriteLine("Kortnumret har skapats: {cardNumber}");
-            Console.WriteLine("konto skapat för {firstName} {lastName} med PIN kod: {Pin}");
-
-            Account NewAccount = new Account(FirstName, LastName, Pin);
+            Console.WriteLine ($"Kortnumret har skapats: {cardNumber}");
+            Console.WriteLine ($"konto skapat för: {FirstName} {LastName} med PIN kod: {Pin}");
 
         }
 
-        static void HandleLogin()
+        static Account HandleLogin()
         {
 
             Console.WriteLine("Ange ditt kortnummer: ");
@@ -57,7 +56,7 @@ namespace atmprojekt
                 if (account.CardNumber == cardNumber && account.Pin == Pin)
                 {
                     Console.WriteLine("Välkommen {account.FirstName} {account.LastName}!");
-                    return;
+                    return account;
                 }
             }
 
@@ -79,7 +78,10 @@ namespace atmprojekt
                 else
                 {
                     account.Balance = account.Balance + amount; //Öka saldot
+                    account.Transactions.Add(new Transaction(amount, "insättning"));
                     Console.WriteLine($"Insättningen lyckades ditt nya saldo är: {account.Balance} kr");
+
+
                 }
             } // If kommer då att inte låta göra insättning om det är under 100kr, else är det som gör att det sker en insättning
             else
@@ -101,6 +103,7 @@ namespace atmprojekt
                 else
                 {
                     account.Balance = account.Balance - amount; //Minskar saldot
+                    account.Transactions.Add(new Transaction(amount, "Uttag"));
                     Console.WriteLine($"Uttaget godkändes, ditt nya saldo är: {account.Balance} kr");
                 }
             }
@@ -187,9 +190,9 @@ namespace atmprojekt
                 }
             }
         }
-    
-    
-    
+
+
+
     }
 }
 
