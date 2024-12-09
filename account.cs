@@ -20,7 +20,7 @@ namespace atmprojekt
         public static string GenerateCardNumber()
         {
             
-            return $"{random.Next(1000, 9999)}-{random.Next(1000, 9999)}-{random.Next(1000, 9999)}-{random.Next(1000, 9999)}";
+            return $"{random.Next(1000, 9999)}{random.Next(1000, 9999)}{random.Next(1000, 9999)}{random.Next(1000, 9999)}";
         }
 
         public Account(string firstName, string lastName, string cardNumber, string pin)

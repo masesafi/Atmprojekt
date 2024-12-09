@@ -32,12 +32,16 @@ namespace atmprojekt
             }
 
 
+            Account NewAccount = new Account(FirstName, LastName, Account.GenerateCardNumber(), Pin);
 
-            string cardNumber = Account.GenerateCardNumber();
-            Account NewAccount = new Account(FirstName, LastName, cardNumber, Pin);
+            Console.WriteLine($"Antal konton i listan: {Account.Accounts.Count}");
 
-            Console.WriteLine ($"Kortnumret har skapats: {cardNumber}");
-            Console.WriteLine ($"konto skapat för: {FirstName} {LastName} med PIN kod: {Pin}");
+
+            Console.WriteLine($"Kortnumret har skapats: {NewAccount.CardNumber}");
+            Console.WriteLine($"Konto skapat för: {FirstName} {LastName} med PIN kod: {Pin}");
+
+
+
 
         }
 
@@ -48,20 +52,25 @@ namespace atmprojekt
             string cardNumber = Console.ReadLine();
 
             Console.WriteLine("Ange din PIN-kod: ");
-            string Pin = Console.ReadLine();
+            string pin = Console.ReadLine();
 
 
             foreach (var account in Account.Accounts)
             {
-                if (account.CardNumber == cardNumber && account.Pin == Pin)
+                if (account.CardNumber == cardNumber && account.Pin == pin)
                 {
-                    Console.WriteLine("Välkommen {account.FirstName} {account.LastName}!");
+                    Console.WriteLine($"Välkommen {account.FirstName} {account.LastName}!");
                     return account;
                 }
             }
 
             Console.WriteLine("Ogiltig inloggningsuppgift försök gärna igen.");
             return null;
+
+       
+
+
+
         }
 
 
@@ -126,7 +135,7 @@ namespace atmprojekt
                     Console.WriteLine("1. skapa konto. ");
                     Console.WriteLine("2. Logga in.");
                     Console.WriteLine("3. Avsluta");
-                    Console.WriteLine("4. Välj ett av alternativen ovan:");
+                    Console.WriteLine("Tryck på siffran bredvid ditt alternativ");
 
                     if (!int.TryParse(Console.ReadLine(), out int choice))
                     {
@@ -151,6 +160,9 @@ namespace atmprojekt
                         default:
                             Console.WriteLine("Ogiltigt val, vänligen försök igen");
                             break;
+
+
+
                     }
                 }
                 else
